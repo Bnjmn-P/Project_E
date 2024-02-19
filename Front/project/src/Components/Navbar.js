@@ -1,28 +1,30 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 const NavigationBar = () => {
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/Gallery1">Gallery 1</Link>
-          </li>
-          <li>
-            <Link to="/Gallery2">Gallery 2</Link>
-          </li>
-          <li>
-            <Link to="/Gallery3">Gallery 3</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
+      <nav className="navigationBar">
+        <div className="navbar-container">
+          <div className="navbar-links">
+            <NavLink to="/" exact activeClassName="active">
+              Home
+            </NavLink>
+            <NavLink to="/Gallery1" activeClassName="active">
+              Gallery 1
+            </NavLink>
+            <NavLink to="/Gallery2" activeClassName="active">
+              Gallery 2
+            </NavLink>
+            <NavLink to="/Gallery3" activeClassName="active">
+              Gallery 3
+            </NavLink>
+            <NavLink to="/contact" activeClassName="active">
+              Contact
+            </NavLink>
+          </div>
+        </div>
       </nav>
 
       <Outlet />

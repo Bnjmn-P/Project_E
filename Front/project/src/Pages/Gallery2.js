@@ -1,20 +1,40 @@
 import React, { useState, useEffect } from 'react';
 
 const CLIENT_ID = 'e47b8b9c49c0aa0';
-const ACCESS_TOKEN = 'e9089bbf4af3989972b4ce6f5c84a07471fd8e25';
+const ACCESS_TOKEN = 'your_access_token_here'; // Replace 'your_access_token_here' with your actual access token
 
-const Gallery2 = () => {
+const GalleryWithAccountInfo = () => {
+  const [accountInfo, setAccountInfo] = useState({});
   const [images, setImages] = useState([]);
 
   useEffect(() => {
+    fetchAccountInfo();
     fetchGallery();
   }, []);
 
-  const fetchGallery = async () => {
+  const fetchAccountInfo = async () => {
     try {
-      const response = await fetch('https://api.imgur.com/3/accont/me/images', {
+      const response = await fetch('https://api.imgur.com/3/account/me', {
         headers: {
           Authorization: `Client-ID ${CLIENT_ID}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAccountInfo(data.data);
+      } else {
+        console.error('Failed to fetch account info:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching account info:', error);
+    }
+  };
+
+  const fetchGallery = async () => {
+    try {
+      const response = await fetch('https://api.imgur.com/3/account/me/images', {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
       });
       if (response.ok) {
@@ -30,6 +50,12 @@ const Gallery2 = () => {
 
   return (
     <div>
+      <h1>Imgur Account Info</h1>
+      <div>
+        <h2>Account Information</h2>
+        <p>Username: {accountInfo.url}</p>
+        {/* Display other account information as needed */}
+      </div>
       <h1>Imgur Gallery</h1>
       <div className="gallery">
         {images.map((image) => (
@@ -40,4 +66,4 @@ const Gallery2 = () => {
   );
 };
 
-export default Gallery2;
+export default GalleryWithAccountInfo;
